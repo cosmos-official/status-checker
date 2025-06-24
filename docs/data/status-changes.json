@@ -1,0 +1,40 @@
+{
+  "changes": [
+    {
+      "server_id": "api-health",
+      "server_name": "API Health Check",
+      "previous_status": "UNKNOWN",
+      "current_status": "UP",
+      "changed_at": "2025-06-24T00:52:22.266042+00:00",
+      "response_time": 69.12,
+      "error_message": null
+    },
+    {
+      "server_id": "vingle-main",
+      "server_name": "Vingle Main Site",
+      "previous_status": "UNKNOWN",
+      "current_status": "UP",
+      "changed_at": "2025-06-24T00:52:22.328783+00:00",
+      "response_time": 62.44,
+      "error_message": null
+    },
+    {
+      "server_id": "api-embedding",
+      "server_name": "API Embedding Service",
+      "previous_status": "UNKNOWN",
+      "current_status": "UP",
+      "changed_at": "2025-06-24T00:52:22.386096+00:00",
+      "response_time": 57.09,
+      "error_message": null
+    },
+    {
+      "server_id": "dev-api-health",
+      "server_name": "Dev API Health Check",
+      "previous_status": "UNKNOWN",
+      "current_status": "UP",
+      "changed_at": "2025-06-24T00:52:22.440844+00:00",
+      "response_time": 54.52,
+      "error_message": null
+    }
+  ]
+}

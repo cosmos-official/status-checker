@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>서버 상태 대시보드</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>서버 상태 대시보드</h1>
+  
+  <section>
+    <h2>전체 가용성 (90일)</h2>
+    <div class="chart-container">
+      <canvas id="uptime-chart"></canvas>
+    </div>
+  </section>
+  
+  <section>
+    <h2>실시간 서버 상태</h2>
+    <table id="status-table">
+      <thead>
+        <tr>
+          <th>서버명</th>
+          <th>상태</th>
+          <th>응답 시간(ms)</th>
+          <th>마지막 체크</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- JS로 동적 렌더링 -->
+      </tbody>
+    </table>
+  </section>
+  
+  <section>
+    <h2>최근 상태 변화</h2>
+    <table id="changes-table">
+      <thead>
+        <tr>
+          <th>서버명</th>
+          <th>이전 상태</th>
+          <th>현재 상태</th>
+          <th>변경 시각</th>
+          <th>에러 메시지</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- JS로 동적 렌더링 -->
+      </tbody>
+    </table>
+  </section>
+  
+  <script src="assets/js/dashboard.js"></script>
+</body>
+</html> 

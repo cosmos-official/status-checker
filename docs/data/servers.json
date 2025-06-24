@@ -1,0 +1,59 @@
+{
+  "servers": [
+    {
+      "id": "api-health",
+      "name": "API Health Check",
+      "url": "https://api.vingle.kr/actuator/health",
+      "type": "http",
+      "method": "GET",
+      "timeout": 10,
+      "expected_status": 200,
+      "check_interval": 300,
+      "enabled": true,
+      "description": "Vingle API 서버 헬스체크 엔드포인트"
+    },
+    {
+      "id": "vingle-main",
+      "name": "Vingle Main Site",
+      "url": "https://vingle.kr",
+      "type": "http",
+      "method": "GET",
+      "timeout": 10,
+      "expected_status": 200,
+      "check_interval": 300,
+      "enabled": true,
+      "description": "Vingle 메인 웹사이트"
+    },
+    {
+      "id": "api-embedding",
+      "name": "API Embedding Service",
+      "url": "https://api-embedding.vingle.kr/_ping",
+      "type": "http",
+      "method": "GET",
+      "timeout": 10,
+      "expected_status": 200,
+      "check_interval": 300,
+      "enabled": true,
+      "description": "Vingle Embedding API 서비스"
+    },
+    {
+      "id": "dev-api-health",
+      "name": "Dev API Health Check",
+      "url": "https://dev.api.vingle.kr/actuator/health",
+      "type": "http",
+      "method": "GET",
+      "timeout": 10,
+      "expected_status": 200,
+      "check_interval": 300,
+      "enabled": true,
+      "description": "Vingle 개발 환경 API 서버 헬스체크"
+    }
+  ],
+  "settings": {
+    "default_timeout": 10,
+    "default_check_interval": 300,
+    "retry_count": 3,
+    "retry_delay": 5,
+    "notification_threshold": 2
+  }
+} 

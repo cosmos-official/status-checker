@@ -1,0 +1,123 @@
+name: Server Status Monitor
+
+on:
+  schedule:
+    # 매 5분마다 실행
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # 수동 실행 가능
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  check-servers:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        
+    - name: Check server status
+      run: |
+        python scripts/check-servers.py
+        
+    - name: Copy data to docs for GitHub Pages
+      run: |
+        mkdir -p docs/data
+        cp data/*.json docs/data/
+        
+    - name: Check for status changes
+      id: check-changes
+      run: |
+        if [ -f "data/status-changes.json" ]; then
+          # 최근 5분 내에 상태 변화가 있는지 확인
+          CHANGES=$(python -c "
+        import json
+        import datetime
+        from datetime import timezone
+
+        try:
+            with open('data/status-changes.json', 'r') as f:
+                data = json.load(f)
+            
+            if 'changes' in data and data['changes']:
+                latest_change = data['changes'][-1]
+                change_time = datetime.datetime.fromisoformat(latest_change['changed_at'].replace('Z', '+00:00'))
+                now = datetime.datetime.now(timezone.utc)
+                time_diff = (now - change_time).total_seconds()
+                
+                if time_diff < 300:  # 5분 이내
+                    print('true')
+                else:
+                    print('false')
+            else:
+                print('false')
+        except:
+            print('false')
+        ")
+          echo "has_recent_changes=$CHANGES" >> $GITHUB_OUTPUT
+        else
+          echo "has_recent_changes=false" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Send Slack notification (if status changed)
+      if: steps.check-changes.outputs.has_recent_changes == 'true'
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      run: |
+        # 최근 상태 변화만 추출하여 Slack 알림 전송
+        python -c "
+        import json
+        import datetime
+        from datetime import timezone
+
+        try:
+            with open('data/status-changes.json', 'r') as f:
+                data = json.load(f)
+            
+            if 'changes' in data and data['changes']:
+                recent_changes = []
+                now = datetime.datetime.now(timezone.utc)
+                
+                for change in data['changes']:
+                    change_time = datetime.datetime.fromisoformat(change['changed_at'].replace('Z', '+00:00'))
+                    time_diff = (now - change_time).total_seconds()
+                    
+                    if time_diff < 300:  # 5분 이내의 변화만
+                        recent_changes.append(change)
+                
+                if recent_changes:
+                    with open('recent_changes.json', 'w') as f:
+                        json.dump(recent_changes, f, indent=2)
+        except Exception as e:
+            print(f'Error: {e}')
+        "
+        if [ -f "recent_changes.json" ]; then
+          python scripts/send-slack-notification.py recent_changes.json
+        fi
+        
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # 상태 변화가 있거나 현재 상태가 변경된 경우에만 커밋
+        if git diff --quiet data/current-status.json; then
+          echo "No changes to commit"
+        else
+          git add data/ docs/
+          git commit -m "feat: 서버 상태 업데이트 $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          git push
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
