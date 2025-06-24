@@ -120,11 +120,12 @@ function renderStatusTable(statusData) {
   tbody.innerHTML = '';
   Object.values(statusData).forEach(server => {
     const tr = document.createElement('tr');
+    const localTime = server.checked_at ? new Date(server.checked_at).toLocaleString('ko-KR') : '-';
     tr.innerHTML = `
       <td>${server.server_id}</td>
       <td class="status-${server.status.toLowerCase()}">${server.status}</td>
       <td>${server.response_time ?? '-'}</td>
-      <td>${server.checked_at ? new Date(server.checked_at).toLocaleString() : '-'}</td>
+      <td>${localTime}</td>
     `;
     tbody.appendChild(tr);
   });
@@ -135,11 +136,12 @@ function renderChangesTable(changes) {
   tbody.innerHTML = '';
   changes.slice(-20).reverse().forEach(change => {
     const tr = document.createElement('tr');
+    const localTime = new Date(change.changed_at).toLocaleString('ko-KR');
     tr.innerHTML = `
       <td>${change.server_name}</td>
       <td>${change.previous_status}</td>
       <td>${change.current_status}</td>
-      <td>${new Date(change.changed_at).toLocaleString()}</td>
+      <td>${localTime}</td>
       <td>${change.error_message ?? ''}</td>
     `;
     tbody.appendChild(tr);
