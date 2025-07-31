@@ -2,29 +2,29 @@
   "api-health": {
     "server_id": "api-health",
     "status": "UP",
-    "response_time": 773.87,
+    "response_time": 713.88,
     "error_message": null,
-    "checked_at": "2025-07-31T19:10:47.820373+00:00"
+    "checked_at": "2025-07-31T19:24:30.443861+00:00"
   },
   "vingle-main": {
     "server_id": "vingle-main",
     "status": "UP",
-    "response_time": 697.46,
+    "response_time": 694.52,
     "error_message": null,
-    "checked_at": "2025-07-31T19:10:48.518958+00:00"
+    "checked_at": "2025-07-31T19:24:31.139475+00:00"
   },
   "api-embedding": {
     "server_id": "api-embedding",
     "status": "UP",
-    "response_time": 716.4,
+    "response_time": 745.37,
     "error_message": null,
-    "checked_at": "2025-07-31T19:10:49.236528+00:00"
+    "checked_at": "2025-07-31T19:24:31.885903+00:00"
   },
   "dev-api-health": {
     "server_id": "dev-api-health",
     "status": "UP",
-    "response_time": 722.81,
+    "response_time": 765.36,
     "error_message": null,
-    "checked_at": "2025-07-31T19:10:49.960549+00:00"
+    "checked_at": "2025-07-31T19:24:32.652152+00:00"
   }
 }
